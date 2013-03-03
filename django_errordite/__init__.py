@@ -2,7 +2,7 @@
 Specialised framework-specific Errordite log handlers.
 """
 __title__ = 'django_errordite'
-__version__ = '0.3.1'
+__version__ = '0.4'
 __author__ = 'Hugo Rodger-Brown'
 __license__ = 'Simplified BSD License'
 __copyright__ = 'Copyright 2013 Hugo Rodger-Brown'
