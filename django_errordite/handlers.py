@@ -20,7 +20,7 @@ class DjangoErrorditeHandler(ErrorditeHandler):
         )
 
         if not hasattr(record, 'request'):
-            return
+            return payload
 
         rq = record.request
         payload['Url'] = rq.get_full_path()
