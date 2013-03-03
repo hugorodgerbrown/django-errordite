@@ -8,29 +8,28 @@ from setuptools import setup
 # allow setup.py to be run from any path
 os.chdir(normpath(join(abspath(__file__), os.pardir)))
 
-# this is a duplicate of django_errordite.__init__.py - which we can't
-# use because of a circular dependency issue (relies on errordite, which
-# may not be installed).
-__title__ = 'django_errordite'
-__version__ = '0.4'
-__author__ = 'Hugo Rodger-Brown'
-__license__ = 'Simplified BSD License'
-__copyright__ = 'Copyright 2013 Hugo Rodger-Brown'
-__description__ = 'Errordite exception logging for Django.'
-__long_desc__ = open(join(dirname(__file__), 'README.rst')).read()
-__license__ = open(join(dirname(__file__), 'LICENCE.md')).read()
+# we can't import errordite as it hasn't been installed yet, so instead
+# read information in as text. This will read in the __init__ file, and
+# create a dict containing any lines beginning with '__' as keys, with
+# whatever is after the '=' as the value,
+# __desc__ = 'hello'
+# would give {'desc': 'hello'}
+meta = {}
+for l in [line for line in tuple(open('django_errordite/__init__.py', 'r')) if line[:2] == '__']:
+    t = l.split('=')
+    meta[t[0].strip().strip('__')] = t[1].strip().strip('\'')
 
 setup(
-    name=__title__,
-    version=__version__,
+    name=meta['title'],
+    version=meta['version'],
     packages=['django_errordite'],
-    install_requires=['errordite>=0.3'],
+    install_requires=['errordite>=0.4'],
     include_package_data=True,
-    license=__license__,
-    description=__description__,
-    long_description=__long_desc__,
-    url='https://github.com/hugorodgerbrown/python-errordite',
-    author=__author__,
+    license=open(join(dirname(__file__), 'LICENCE.md')).read(),
+    description=meta['description'],
+    long_description=open(join(dirname(__file__), 'README.rst')).read(),
+    url='https://github.com/hugorodgerbrown/django-errordite',
+    author=meta['author'],
     author_email='hugo@rodger-brown.com',
     classifiers=[
         'Environment :: Web Environment',
