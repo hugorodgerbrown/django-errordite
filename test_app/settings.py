@@ -54,3 +54,5 @@ LOGGING = {
         },
     }
 }
+
+SECRET_KEY = "something really, really hard to guess goes here."

@@ -35,10 +35,37 @@ class DjangoHandlerTestCase(unittest.TestCase):
         except:
             self.request.META['HTTP_USER_AGENT'] = "Django test runner"
             self.request.META['HTTP_X_FORWARDED_FOR'] = "Django test runner"
-            self.logger.error(func.__doc__,
-                extra={"request": self.request}
-            )
-            print ("Please check Errordite for an error containing HTTP "
+            self.logger.error(func.__doc__, extra={"request": self.request})
+            print (
+                "Please check Errordite for an error containing HTTP "
+                "request info, with message: '%s'" % func.__doc__)
+
+    def test_with_request_get_params(self):
+        "Test that the GET querystring params are recorded."
+        func = self.test_with_request_get_params
+        self.request = self.factory.get('/?x=y&a=b')
+        try:
+            throw_exception(func.__name__)
+        except:
+            self.request.META['HTTP_USER_AGENT'] = "Django test runner"
+            self.request.META['HTTP_X_FORWARDED_FOR'] = "Django test runner"
+            self.logger.error(func.__doc__, extra={"request": self.request})
+            print (
+                "Please check Errordite for an error containing HTTP "
+                "request info, with message: '%s'" % func.__doc__)
+
+    def test_with_request_post_params(self):
+        "Test that the POST params are recorded."
+        func = self.test_with_request_post_params
+        self.request = self.factory.post('/', data={'x': 'y', 'a': 'b'})
+        try:
+            throw_exception(func.__name__)
+        except:
+            self.request.META['HTTP_USER_AGENT'] = "Django test runner"
+            self.request.META['HTTP_X_FORWARDED_FOR'] = "Django test runner"
+            self.logger.error(func.__doc__, extra={"request": self.request})
+            print (
+                "Please check Errordite for an error containing HTTP "
                 "request info, with message: '%s'" % func.__doc__)
 
     def test_with_request_header_forwarded(self):
@@ -49,10 +76,9 @@ class DjangoHandlerTestCase(unittest.TestCase):
         except:
             self.request.META['HTTP_USER_AGENT'] = "Django test runner"
             self.request.META['HTTP_X_FORWARDED_FOR'] = "ip goes here"
-            self.logger.error(func.__doc__,
-                extra={"request": self.request}
-            )
-            print ("Please check Errordite for an error containing HTTP "
+            self.logger.error(func.__doc__, extra={"request": self.request})
+            print (
+                "Please check Errordite for an error containing HTTP "
                 "request info, with message: '%s'" % func.__doc__)
 
     def test_with_request_header_remote_addr(self):
@@ -63,10 +89,9 @@ class DjangoHandlerTestCase(unittest.TestCase):
         except:
             self.request.META['HTTP_USER_AGENT'] = "Django test runner"
             self.request.META['REMOTE_ADDR'] = "remote address goes here"
-            self.logger.error(func.__doc__,
-                extra={"request": self.request}
-            )
-            print ("Please check Errordite for an error containing HTTP "
+            self.logger.error(func.__doc__, extra={"request": self.request})
+            print (
+                "Please check Errordite for an error containing HTTP "
                 "request info, with message: '%s'" % func.__doc__)
 
     def test_with_request_and_anonymous_user(self):
@@ -77,7 +102,8 @@ class DjangoHandlerTestCase(unittest.TestCase):
             throw_exception(func.__name__)
         except:
             self.logger.error(func.__doc__, extra={"request": self.request})
-            print ("Please check Errordite for an error containing HTTP "
+            print (
+                "Please check Errordite for an error containing HTTP "
                 "request info, with message: '%s'" % func.__doc__)
 
     def test_with_request_and_known_user(self):
@@ -90,7 +116,8 @@ class DjangoHandlerTestCase(unittest.TestCase):
             throw_exception(func.__name__)
         except:
             self.logger.error(func.__doc__, extra={"request": self.request})
-            print ("Please check Errordite for an error containing HTTP "
+            print (
+                "Please check Errordite for an error containing HTTP "
                 "request info, with message: '%s'" % func.__doc__)
 
 
