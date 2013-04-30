@@ -42,10 +42,11 @@ class DjangoErrorditeHandler(ErrorditeHandler):
                 else:
                     data['user'] = rq.user.username
 
+        # prepend request GET/POST keys with 'GET_'/'POST_' and add to data
         if rq.method == 'GET':
-            data.update(rq.GET.dict())
+            data.update({('GET_%s' % k): v for k, v in rq.GET.dict().items()})
         elif rq.method == 'POST':
-            data.update(rq.POST.dict())
+            data.update({('POST_%s' % k): v for k, v in rq.POST.dict().items()})
 
         payload['ExceptionInfo']['Data'] = data
         return payload
