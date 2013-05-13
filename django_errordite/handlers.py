@@ -14,6 +14,9 @@ class DjangoErrorditeHandler(ErrorditeHandler):
         """
         Overrides base class implementation to add Django-specific error
         data - specifically user and HTTP request information.
+
+        The additional data goes into a dict called 'ContextData' - see the
+        errordite docs for more details: https://www.errordite.com/docs/clients?tab=other
         """
         payload = super(DjangoErrorditeHandler, self).enrich_errordite_payload(
             payload, record
@@ -48,5 +51,5 @@ class DjangoErrorditeHandler(ErrorditeHandler):
         elif rq.method == 'POST':
             data.update({('POST_%s' % k): v for k, v in rq.POST.dict().items()})
 
-        payload['ExceptionInfo']['Data'] = data
+        payload['ContextData'] = data
         return payload
